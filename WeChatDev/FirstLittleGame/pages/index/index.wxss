@@ -1,0 +1,100 @@
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.portrait {
+  text-align: center;
+}
+
+.nickname {
+  color: green;
+  text-align: center;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+
+.window-red {
+  color: #ff0000;
+}
+
+.window-green {
+  color: #00ff00;
+}
+
+.item {
+  width: 70px;
+  height: 70px;
+  display: block;
+  line-height: 75px;
+  text-align: center;
+  float: left;
+  font-size: 22px;
+  font-weight: 800;
+  transition : transform 0.2s linear;
+  border: 1px solid green;
+  /**border-radius: 5px;**/
+  -webkit-transition: -webkit-transform 0.2s linear;
+}
+
+.container .d0 {
+    background-color: #CCC0B2;
+}
+.container .d2 {
+	color: #7c736a;
+    background: #eee4da;
+}
+.container .d4 {
+	color: #7c736a;
+    background: #ece0c8;
+}
+.container .d8 {
+	color: #fff7eb;
+    background: #f2b179;
+}
+.container .d16 {
+	color:#fff7eb;
+    background:#f59563;
+}
+.container .d32 {
+	color:#fff7eb;
+    background:#f57c5f;
+}
+.container .d64 {
+	color:#fff7eb;
+    background:#f65d3b;
+}
+.container .d128 {
+	color:#fff7eb;
+    background:#edce71;
+}
+.container .d256 {
+	color:#fff7eb;
+    background:#edcc61;
+}
+.container .d512 {
+	 color:#fff7eb;
+    background:#ecc850;
+}
+.container .d1024 {
+	color:#fff7eb;
+    background:#edc53f;
+    font-size: 20px;
+}
+.container .d2048 {
+	color:#fff7eb;
+    background:#eec22e;
+    font-size: 20px;
+}
