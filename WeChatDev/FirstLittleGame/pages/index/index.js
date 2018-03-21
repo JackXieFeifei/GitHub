@@ -24,7 +24,10 @@ Page({
       message:""
     },
     curScore:0,
-    highScore:0
+    highScore:0,
+
+    animation: 0,
+    animationIndex: -1
   },
   //事件处理函数
   bindViewTap: function() {
@@ -64,6 +67,13 @@ Page({
       })
     }
 
+    // 动画创建
+    this.data.animation = wx.createAnimation({
+      duration: 1000,
+      timingFunction: 'ease',
+    });
+    this.data.animation.scale(0.9, 0.9).step()
+
     this.restart();
     console.log("onLoad: function end");
   },
@@ -93,8 +103,6 @@ Page({
       // 历史最高分更新
 
     });
-
-    
 
     // 随机生成 2 个数字
     this.randomNum();
@@ -127,6 +135,10 @@ Page({
 
   // 更新数据
   changeData: function (index, num) {
+    this.setData({
+      animationIndex: index,
+    });
+    
     var changeData = {};
     changeData['dataArray[' + index + ']'] = num;
     this.setData(changeData);

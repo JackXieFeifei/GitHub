@@ -39,9 +39,9 @@
   </view>
 
   <view class="game-area" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd"> 
-    <lable class = "item d{{item}}" wx:for="{{dataArray}}">
+    <view class = "item d{{item}}" wx:for="{{dataArray}}" animation="{{ index == animationIndex ? animation : '' }}">
       {{ item ? item : ' ' }}
-    </lable>
+    </view>
   </view>
 
   <modal title="提示" confirm-text="确定" no-cancel hidden="{{gameOverTips.status}}" bindconfirm="restart">
