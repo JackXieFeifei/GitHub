@@ -14,17 +14,38 @@
 </view>
 -->
 
-<view>
-  <view class="portrait"><image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image></view>
-  <view class="nickname">玩家：{{userInfo.nickName}}</view>
+<view class="container">
+  <view class="gameinfo">
+    <view class="userinfo">
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image>
+      <view class="nickname">{{userInfo.nickName}}</view>
+    </view>
 
-  <view class="container" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd"> 
-    <!-- <text catchtap="click" class="{{color}}"> {{motto}} </text> -->
+    <view class="scoreinfo">
+      <view class="my-score">
+        <view class="cur-score-font">当前得分</view>
+        <view class="cur-score">{{curScore}}</view>
+      </view>
+
+      <view class="high-score">
+        <view class="history-score-font">历史最高</view>
+        <view class="history-score">{{highScore}}</view>
+      </view>
+
+      <button class="button-restart" bindtap="restart">重新开始</button>
+    </view>
+    
+  </view>
+
+  <view class="game-area" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd"> 
     <lable class = "item d{{item}}" wx:for="{{dataArray}}">
       {{ item ? item : ' ' }}
     </lable>
   </view>
   <modal title="提示" confirm-text="确定" no-cancel hidden="{{gameOverTips.status}}" bindconfirm="restart">
-    {{gameOver.message}}
+    {{gameOverTips.message}}
+  </modal>
+  <modal title="提示" confirm-text="确定" no-cancel hidden="{{gameContinueTips.status}}" bindconfirm="gameContinue">
+    {{gameContinueTips.message}}
   </modal>
 </view>

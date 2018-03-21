@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.93",
 	"appid": "wx4b2695c747892b71",
-	"projectname": "FirstLittleGame",
+	"projectname": "2048",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

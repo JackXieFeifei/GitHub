@@ -1,8 +1,12 @@
 /**app.wxss**/
 .container {
+  position: fixed;
+  left: 0;
+  right: 0;
   width: 300px;
-  height: 300px;
-  margin: auto;
+  height: 100%;
+  margin: 0 auto;
+  text-align: center;
 } 
 
 .page {

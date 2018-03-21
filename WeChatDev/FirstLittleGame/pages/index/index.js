@@ -2,15 +2,11 @@
 //获取应用实例
 const app = getApp()
 
-var flag = true;
-var color2 = "window-green";
 var rowNum = 4;
 var colNum = 4;
 
 Page({
   data: {
-    motto: "Hello World",
-    color:"window-red",
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     
@@ -21,8 +17,14 @@ Page({
     slideTime: 20,
     gameOverTips: {
       status: true,
-      message: "游戏结束！"
-    }
+      message: ""
+    },
+    gameContinueTips:{
+      status: true,
+      message:""
+    },
+    curScore:0,
+    highScore:0
   },
   //事件处理函数
   bindViewTap: function() {
@@ -74,30 +76,32 @@ Page({
     })
   },
 
-  click:function(){
-    console.log("点击了文字");
-    
-    if (flag) {
-      this.setData({ color: "window-green" });
-      flag = false;
-    } else {
-      this.setData({ color: "window-red" });
-      flag = true;
-    }
-  },
-
   // 重新开始
   restart: function () {
     var arr = new Array(16);
     arr.fill(0);
 
     this.setData({
-      dataArray: arr
+      dataArray: arr, 
+      gameOverTips:{
+        status: true,
+        message: ""
+      }
     });
 
     // 随机生成 2 个数字
     this.randomNum();
     this.randomNum();
+  },
+
+  // 达到2048后 提示游戏继续 
+  gameContinue: function() {
+    this.setData({
+      gameContinueTips: {
+        status: true,
+        message: ""
+      }
+    });
   },
 
   // 随机数字
@@ -162,45 +166,59 @@ Page({
 
   // 移动结束
   touchEnd: function() {
-    console.log("move end !!!");
     var flag = this.gameOver();
-    if (flag == true) {
-      this.setData({
-        gameOverTips:{
-          status: true,
-          message: "恭喜你，目标达成！"
-        }
-      });
-    } else if (flag == false) {
+    if (flag == 0) {
+      console.log("flag == 0");
       this.setData({
         gameOverTips: {
-          status: true,
+          status: false,
           message: "很遗憾，游戏结束！"
         }
       });
+    } else if (flag == 1) {
+      console.log("flag == 1");
+      var canMove = this.moveControl();
+      if (canMove == true) {
+        this.randomNum();
+      }
+    } else if (flag == 2){
+      console.log("flag == 2");
+      this.setData({
+        gameContinueTips: {
+          status: false,
+          message: "恭喜你，目标达成！！！"
+        }
+      });
     }
-    console.log("move direction = ", this.data.moveDirction);
-    if (this.data.moveDirection == "left") {
+  },
+
+  moveControl: function() {
+    if (this.moveLeft() && this.data.moveDirection == "left") {
       this.mergeMove(3, 2, 1, 0);
       this.mergeMove(7, 6, 5, 4);
       this.mergeMove(11, 10, 9, 8);
       this.mergeMove(15, 14, 13, 12);
-    } else if (this.data.moveDirection == "right") {
+      return true;
+    } else if (this.moveRight() && this.data.moveDirection == "right") {
       this.mergeMove(0, 1, 2, 3);
       this.mergeMove(4, 5, 6, 7);
       this.mergeMove(8, 9, 10, 11);
       this.mergeMove(12, 13, 14, 15);
-    } else if (this.data.moveDirection == "up") {
+      return true;
+    } else if (this.moveUp() && this.data.moveDirection == "up") {
       this.mergeMove(12, 8, 4, 0);
       this.mergeMove(13, 9, 5, 1);
       this.mergeMove(14, 10, 6, 2);
       this.mergeMove(15, 11, 7, 3);
-    } else if (this.data.moveDirection == "down") {
+      return true;
+    } else if (this.moveDown() && this.data.moveDirection == "down") {
       this.mergeMove(0, 4, 8, 12);
       this.mergeMove(1, 5, 9, 13);
       this.mergeMove(2, 6, 10, 14);
       this.mergeMove(3, 7, 11, 15);
+      return true;
     }
+    return false;
   },
 
   // 合并数字
@@ -248,13 +266,11 @@ Page({
 
   // 游戏结束
   gameOver: function() {
-    // 有值为 2048 后进行提示
-    var temp = [];
+    // 定义 0:游戏结束 1:游戏继续 2:达到2048 
+
+    // 有值为 2048 后进行提示, 游戏可以继续or退出
     var max = 0;
     for (var i = 0; i< this.data.dataArray.length; i++) {
-      if (this.data.dataArray[i] == 0) {
-        temp.push(i);
-      }
       if (this.data.dataArray[i] > max) {
         max = this.data.dataArray[i];
       }
@@ -262,29 +278,62 @@ Page({
     
     if (max == 2048) {
       // 提示继续
+      return 2;
     }
 
-    // 格子满了 并且相邻的两个元素不等
-    if(this.moveRight()) {
-      return false;
+    // 四个方向至少有一个方向能够移动
+    if (this.moveLeft() || this.moveRight() || this.moveUp() || this.moveDown()) {
+      return 1;
     } else {
-      return true;
+      return 0;
     }
   },
 
   // 能否向上移动
   moveUp: function() {
+    for (var col = 0; col < 4; col++) {
+      for (var row = 1; row < 4; row++) {
+        if (this.data.dataArray[row * colNum + col] != 0) {
+          if (this.data.dataArray[(row - 1) * colNum + col] == 0 || this.data.dataArray[(row - 1) * colNum + col] == this.data.dataArray[row * colNum + col]) {
+            console.log("+++ move up true");
+            return true;
+          }
+        }
+      }
+    }
+    console.log("+++ move up false");
     return false;
   }, 
 
   // 能否向下移动
   moveDown: function() {
+    for (var col = 3; col >= 0; col--) {
+      for (var row = 2; row >= 0; row--) {
+        if (this.data.dataArray[row*colNum+col] != 0) {
+          if (this.data.dataArray[(row+1) * colNum + col] == 0 || this.data.dataArray[(row + 1) * colNum + col] == this.data.dataArray[row * colNum + col]) {
+            console.log("+++ move down true");
+            return true;
+          }
+        }
+      }
+    }
+    console.log("+++ move down false");
     return false;
   },
 
   // 能否向左移动
   moveLeft:function() {
-    
+    for (var row = 0; row < 4; row++) {
+      for (var col = 1; col < 4; col++) {
+        if (this.data.dataArray[row * colNum + col] != 0) {
+          if (this.data.dataArray[row * colNum + col -1] == 0 || this.data.dataArray[row * colNum + col - 1] == this.data.dataArray[row * colNum + col]) {
+            console.log("+++ move left true");
+            return true;
+          }
+        }
+      }
+    }
+    console.log("+++ move left false");
     return false;
   },
 
@@ -294,8 +343,7 @@ Page({
     for (var row = 3; row >= 0; row--) {
       for (var col = 2; col >= 0; col--) {
         if (this.data.dataArray[row*colNum+col] != 0) {
-          if (this.data.dataArray[row * colNum + col + 1] == 0 || 
-          this.data.dataArray[row * colNum + col + 1] == this.data.dataArray[row * colNum + col]) {
+          if (this.data.dataArray[row * colNum + col + 1] == 0 || this.data.dataArray[row * colNum + col + 1] == this.data.dataArray[row * colNum + col]) {
             console.log("move right true");
             return true;
           }
