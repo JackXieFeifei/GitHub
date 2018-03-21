@@ -86,8 +86,15 @@ Page({
       gameOverTips:{
         status: true,
         message: ""
-      }
+      },
+      // 当前分数归零
+      curScore: 0,
+      
+      // 历史最高分更新
+
     });
+
+    
 
     // 随机生成 2 个数字
     this.randomNum();
@@ -241,6 +248,9 @@ Page({
         } else {
           this.changeData(arr[i], next*2);
           this.changeData(arr[j], 0);
+
+          // 更新分数
+          this.changeScore(next);
           break;
         }
       }
@@ -261,6 +271,18 @@ Page({
           break;
         }
       }
+    }
+  },
+
+  changeScore:function (addScore) {
+    var score = this.data.curScore + addScore;
+    this.setData({
+      curScore: score,
+    });
+    if (this.data.highScore < score) {
+      this.setData({
+        highScore: score,
+      });
     }
   },
 

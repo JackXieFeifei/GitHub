@@ -15,6 +15,7 @@
 -->
 
 <view class="container">
+
   <view class="gameinfo">
     <view class="userinfo">
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}"></image>
@@ -42,10 +43,13 @@
       {{ item ? item : ' ' }}
     </lable>
   </view>
+
   <modal title="提示" confirm-text="确定" no-cancel hidden="{{gameOverTips.status}}" bindconfirm="restart">
     {{gameOverTips.message}}
   </modal>
+
   <modal title="提示" confirm-text="确定" no-cancel hidden="{{gameContinueTips.status}}" bindconfirm="gameContinue">
     {{gameContinueTips.message}}
   </modal>
+
 </view>
