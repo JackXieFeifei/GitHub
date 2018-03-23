@@ -15,19 +15,33 @@
 
 .gameinfo {
   height: 140px;
-  /**background: burlywood;*/
   margin: 10px 0px;
+  /**background: blanchedalmond;**/
 }
 
 .userinfo {
   float: left;
   text-align: left;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .nickname {
   color: green;
   text-align: left;
+}
+
+.game-name {
+  width: 100px;
+  height: 115px;
+  background: #eec22e;
+  border-radius: 10%;
+  font-size: 36px;
+}
+
+.game-title {
+  color: white;
+  text-align: center;
+  margin-top: 30%;
 }
 
 .scoreinfo {

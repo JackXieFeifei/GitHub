@@ -1,13 +1,12 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/logs/logs"
+    "pages/index/index"
   ],
   "window": {
     "backgroundColor": "#ffffff",
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#ddd",
-    "navigationBarTitleText": "挑战2048",
+    "navigationBarTitleText": "2048战起来",
     "navigationBarTextStyle": "black"
   }
 }
